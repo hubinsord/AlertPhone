@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="menu_general_margin">16dp</dimen>
+    <dimen name="padding_emergency_call_icon">50dp</dimen>
+</resources>

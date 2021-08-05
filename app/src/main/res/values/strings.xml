@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AlertPhone</string>
+
+    <!--    JoinGroupActivity        -->
+    <string name="enter_code">Enter your group\'s code</string>
+    <string name="confirm">Confirm</string>
+
+    <!--    GroupAlertActivity    -->
+    <string name="btn_send_notification">Send</string>
+    <string name="et_enter_message">enter a message</string>
+    <string name="et_enter_title">enter a title</string>
+
+</resources>

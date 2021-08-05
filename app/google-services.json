@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "760971476355",
+    "project_id": "alertphone-e7b37",
+    "storage_bucket": "alertphone-e7b37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760971476355:android:161a2673e843fae0934ab6",
+        "android_client_info": {
+          "package_name": "com.example.alertphone.alcohol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760971476355-oc33hc1qhbftmmrg1ve98u5sfad60tni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMFUcc-WjMR6vNSMyG1mbqpGUN9TTllA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760971476355-oc33hc1qhbftmmrg1ve98u5sfad60tni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
