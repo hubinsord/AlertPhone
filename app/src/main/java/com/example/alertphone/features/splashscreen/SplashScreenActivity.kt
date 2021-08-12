@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.example.alertphone.R
-import com.example.alertphone.features.join.JoinGroup
+import com.example.alertphone.features.onboarding.OnboardingActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -16,7 +16,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         Handler(Looper.getMainLooper()).postDelayed(
             Runnable {
-                val intent = Intent(this@SplashScreenActivity, JoinGroup::class.java)
+                val intent = Intent(this@SplashScreenActivity, OnboardingActivity::class.java)
                 this@SplashScreenActivity.startActivity(intent)
                 this@SplashScreenActivity.finish()
             }, SPLASH_DISPLAY_LENGTH
