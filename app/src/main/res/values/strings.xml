@@ -4,10 +4,17 @@
     <!--    JoinGroupActivity        -->
     <string name="enter_code">Enter your group\'s code</string>
     <string name="confirm">Confirm</string>
+    <string name="tv_header_info">Either existing or new one</string>
+
 
     <!--    GroupAlertActivity    -->
     <string name="btn_send_notification">Send</string>
     <string name="et_enter_message">enter a message</string>
     <string name="et_enter_title">enter a title</string>
+    <string name="tv_bottom_info">The following button notifies your group about an emergency</string>
+    <string name="et_title_content">Emergency</string>
+    <string name="et_message_content">I need your help!</string>
+    <string name="tv_title_label">TITLE:</string>
+    <string name="tv_message_label">MESSAGE:</string>
 
 </resources>

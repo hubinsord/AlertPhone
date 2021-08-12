@@ -3,19 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="groupName"
+            type="java.lang.String" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -23,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/menu_general_margin"
-            android:gravity="center"
+            android:gravity="left"
             android:text="@string/enter_code"
             android:textColor="@color/black"
             android:textSize="32sp"
@@ -31,7 +29,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.05" />
+
+        <TextView
+            android:id="@+id/tv_header_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/menu_general_margin"
+            android:gravity="left"
+            android:layout_marginBottom="8dp"
+            android:text="@string/tv_header_info"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/et_group_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_enter_code_header"
+            app:layout_constraintVertical_bias="0.0" />
+
 
         <TextView
             android:id="@+id/tv_hash"
@@ -39,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/menu_general_margin"
             android:text="#"
-            android:textColor="@color/black"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,35 +60,41 @@
             app:layout_constraintVertical_bias="0.5" />
 
         <EditText
-            android:id="@+id/et_code"
+            android:id="@+id/et_group_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="@dimen/menu_general_margin"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+            android:drawablePadding="12dp"
             android:hint="@string/enter_code"
+            android:imeOptions="actionSend"
+            android:inputType="textFilter"
+            android:paddingHorizontal="@dimen/menu_general_margin"
             android:textColor="@color/black"
-            android:textSize="22sp"
-
             android:textColorHint="@color/grey_400"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_hash"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            android:inputType="text"
-            android:imeOptions="actionSend"/>
-
+            app:layout_constraintVertical_bias="0.5" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirm"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="@{groupName.length() > 3}"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="14dp"
             android:text="@string/confirm"
-            android:textAllCaps="false"
-            android:textSize="35sp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.87"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_code"
+            app:layout_constraintTop_toBottomOf="@id/et_group_name"
             app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
