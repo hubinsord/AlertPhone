@@ -13,7 +13,7 @@ class OnboardingViewModel(private val topicStorage: TopicStorage) : ViewModel() 
         storeGroupName(groupName)
     }
 
-    fun storeGroupName(topic: String) {
+    private fun storeGroupName(topic: String) {
         topicStorage.setGroupNameSharedPreferences(topic)
     }
 }

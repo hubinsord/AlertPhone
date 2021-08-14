@@ -1,4 +1,4 @@
-package com.example.alertphone.archtecture.pushnotification
+package com.example.alertphone.architecture.pushnotification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -26,9 +26,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         i("TEST", "TEST fire base not")
-//        val title = remoteMessage.notification?.title
-        val title = remoteMessage.data["title"]
-        val message = remoteMessage.data["message"]
+
+        remoteMessage.data.entries
+        remoteMessage.data.values
+        val title = remoteMessage.notification?.title
+        val message = remoteMessage.notification?.body
         sendNotification(title, message)
     }
 
@@ -36,8 +38,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         i("TEST", "TEST sendNotification")
 
         val intent = MainActivity.newIntent(this, true)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val pendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channelId = "alert_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -70,7 +74,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         pendingIntent: PendingIntent?,
     ) = NotificationCompat.Builder(this, channelId)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setChannelId("test_channel")
+        .setChannelId("alert_channel")
         .setContentTitle(title)
         .setContentText(message)
         .setAutoCancel(true)
