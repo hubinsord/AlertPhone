@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.transition.TransitionManager
 import com.example.alertphone.R
 import com.example.alertphone.data.main.api.NotificationApiInstance
@@ -32,8 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding =
             DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
-        val groupAlertSubscriber = GroupAlertSubscriber(this)
-        viewModel = MainViewModel(groupAlertSubscriber)
+        initViewModel()
         viewModel.getGroupName()
         viewModel.subscribe()
         isCalling = intent.getBooleanExtra(EXTRA_CALLING, false)
@@ -57,6 +58,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun initViewModel() {
+        val groupAlertSubscriber = GroupAlertSubscriber(this)
+        val viewModelFactory = MainViewModelFactory(groupAlertSubscriber)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     private fun hideMainContainer() {
