@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.transition.TransitionManager
 import com.example.alertphone.R
 import com.example.alertphone.data.main.api.NotificationApiInstance
 import com.example.alertphone.data.main.model.NotificationData
@@ -15,7 +17,6 @@ import com.example.alertphone.data.main.model.PushNotification
 import com.example.alertphone.databinding.ActivityMainBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private var isCalling = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,27 +36,47 @@ class MainActivity : AppCompatActivity() {
         viewModel = MainViewModel(groupAlertSubscriber)
         viewModel.getGroupName()
         viewModel.subscribe()
-        getToken()
+        isCalling = intent.getBooleanExtra(EXTRA_CALLING, false)
 
-        val title = binding.etTitle.text.toString()
-        viewModel.updateTitle(title)
-
-        val message = binding.etMessage.text.toString()
-        viewModel.updateMessage(message)
+        if (isCalling) {
+            hideMainContainer()
+        }
 
         viewModel.groupNameLiveData.observe(this, Observer { groupName ->
             binding.groupName = groupName
-
             binding.ivEmergencyCall.setOnClickListener {
-                if(title.isNotEmpty() && message.isNotEmpty()){
-                    val notificationData = NotificationData(title, message)
-                    val pushNotification = PushNotification(notificationData, groupName)
-                    sendNotification(pushNotification)
+                if (isCalling) {
+                    showMainContainer()
+                } else {
+                    val title = binding.etTitle.text.toString()
+                    val message = binding.etMessage.text.toString()
+                    if (title.isNotEmpty() && message.isNotEmpty()) {
+                        val pushNotification = createPushNotification(title, message, groupName)
+                        sendNotification(pushNotification)
+                    }
                 }
             }
         })
     }
 
+    private fun hideMainContainer() {
+        binding.mainContainer.isVisible = false
+    }
+
+    private fun showMainContainer() {
+        TransitionManager.beginDelayedTransition(binding.clMain)
+        binding.mainContainer.isVisible = true
+        isCalling = false
+    }
+
+    private fun createPushNotification(
+        title: String,
+        message: String,
+        groupName: String?,
+    ): PushNotification {
+        val notificationData = NotificationData(title, message)
+        return PushNotification(notificationData, "/topics/$groupName")
+    }
 
     private fun sendNotification(pushNotification: PushNotification) =
         CoroutineScope(Dispatchers.IO).launch {
@@ -89,13 +111,6 @@ class MainActivity : AppCompatActivity() {
         fun newIntent(context: Context?, isCalling: Boolean?): Intent {
             val intent = Intent(context, MainActivity::class.java)
             intent.putExtra(EXTRA_CALLING, isCalling)
-            return intent
-        }
-
-        @JvmStatic
-        fun newIntent(context: Context?, text: String?): Intent {
-            val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(EXTRA_CALLING, text)
             return intent
         }
 

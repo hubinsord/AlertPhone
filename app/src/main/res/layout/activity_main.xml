@@ -13,6 +13,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -55,9 +56,9 @@
                 android:id="@+id/fab_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="edit"
                 android:scaleType="center"
-                android:src="@drawable/ic_edit"
-                android:contentDescription="edit" />
+                android:src="@drawable/ic_edit" />
 
         </LinearLayout>
 
@@ -112,20 +113,20 @@
                     android:id="@+id/etTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/et_title_content"
-                    android:textColor="@color/black"
                     android:autofillHints="@string/et_title_content"
                     android:inputType="text"
-                    tools:ignore="LabelFor"/>
+                    android:text="@string/et_title_content"
+                    android:textColor="@color/black"
+                    tools:ignore="LabelFor" />
 
                 <EditText
                     android:id="@+id/etMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/et_message_content"
-                    android:textColor="@color/black"
                     android:autofillHints="@string/et_message_content"
                     android:inputType="text"
+                    android:text="@string/et_message_content"
+                    android:textColor="@color/black"
                     tools:ignore="LabelFor" />
 
             </LinearLayout>
@@ -137,7 +138,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="40dp"
-            android:background="@drawable/iv_bg_call_make"
+            android:background="@drawable/bg_iv_call_icon_idle"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"

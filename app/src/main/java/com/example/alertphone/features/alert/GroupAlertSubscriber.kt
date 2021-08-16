@@ -9,6 +9,7 @@ class GroupAlertSubscriber(private val context: Context) {
 
     fun subscribeToGroup()  {
         val topic = getGroupName()
+        val path = "/topics/$topic"
         FirebaseMessaging.getInstance().subscribeToTopic(topic!!)
     }
 

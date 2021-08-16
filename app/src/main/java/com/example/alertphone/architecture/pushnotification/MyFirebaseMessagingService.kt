@@ -3,6 +3,7 @@ package com.example.alertphone.architecture.pushnotification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.media.RingtoneManager
 import android.net.Uri
@@ -26,11 +27,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         i("TEST", "TEST fire base not")
-
-        remoteMessage.data.entries
-        remoteMessage.data.values
-        val title = remoteMessage.notification?.title
-        val message = remoteMessage.notification?.body
+//        val title = remoteMessage.notification?.title
+//        val message = remoteMessage.notification?.body
+        val map: Map<String,String> = remoteMessage.data
+        val title = map["title"]
+        val message = map["message"]
         sendNotification(title, message)
     }
 
@@ -38,10 +39,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         i("TEST", "TEST sendNotification")
 
         val intent = MainActivity.newIntent(this, true)
-        val pendingIntent =
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_UPDATE_CURRENT);
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channelId = "alert_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -74,7 +73,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         pendingIntent: PendingIntent?,
     ) = NotificationCompat.Builder(this, channelId)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setChannelId("alert_channel")
+        .setChannelId(channelId)
         .setContentTitle(title)
         .setContentText(message)
         .setAutoCancel(true)

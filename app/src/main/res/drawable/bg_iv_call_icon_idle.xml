@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/iv_circle_shape_call_make" />
+    <item android:drawable="@drawable/bg_oval_indigo_500" />
     <item
         android:bottom="@dimen/padding_emergency_call_icon"
         android:drawable="@drawable/call_white_48"
