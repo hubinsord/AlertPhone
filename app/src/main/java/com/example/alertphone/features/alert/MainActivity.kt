@@ -2,128 +2,159 @@ package com.example.alertphone.features.alert
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.transition.TransitionManager
 import com.example.alertphone.R
-import com.example.alertphone.data.main.api.NotificationApiInstance
-import com.example.alertphone.data.main.model.NotificationData
-import com.example.alertphone.data.main.model.PushNotification
 import com.example.alertphone.databinding.ActivityMainBinding
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-    private var isCalling = false
+    private lateinit var alarmSound: MediaPlayer
+    private lateinit var vibrator: Vibrator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
-        initViewModel()
-        viewModel.getGroupName()
-        viewModel.subscribe()
-        isCalling = intent.getBooleanExtra(EXTRA_CALLING, false)
-
-        if (isCalling) {
-            hideMainContainer()
+        binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+        initVibrator()
+        initAlarmSound()
+        val groupAlertSubscriber = GroupAlertSubscriber(this)
+        val alertSender = AlertSender()
+        viewModel = MainViewModel(groupAlertSubscriber, alertSender)
+        viewModel.subscribeForAlerts()
+        viewModel.updateState(getInitialViewState())
+        binding.tvMessage.doAfterTextChanged {
+            viewModel.updateMessage(it.toString())
         }
-
+        viewModel.stateLiveData.observe(this, {
+            viewStateChanged(it)
+        })
         viewModel.groupNameLiveData.observe(this, Observer { groupName ->
-            binding.groupName = groupName
-            binding.ivEmergencyCall.setOnClickListener {
-                if (isCalling) {
-                    showMainContainer()
-                } else {
-                    val title = binding.etTitle.text.toString()
-                    val message = binding.etMessage.text.toString()
-                    if (title.isNotEmpty() && message.isNotEmpty()) {
-                        val pushNotification = createPushNotification(title, message, groupName)
-                        sendNotification(pushNotification)
-                    }
-                }
-            }
+            groupNameChanged(groupName)
         })
     }
 
-    private fun initViewModel() {
-        val groupAlertSubscriber = GroupAlertSubscriber(this)
-        val viewModelFactory = MainViewModelFactory(groupAlertSubscriber)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+    private fun initVibrator() {
+        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+    }
+
+    private fun initAlarmSound() {
+        alarmSound = MediaPlayer.create(this, R.raw.censor_beep_sound).also {
+            it.isLooping = true
+            it.setVolume(100f, 100f)
+        }
+    }
+
+    private fun getInitialViewState() = intent.getSerializableExtra(EXTRA_STATE) as MainViewState
+
+    private fun viewStateChanged(viewState: MainViewState) {
+        when (viewState) {
+            MainViewState.STANDBY -> handleStandbyState()
+            MainViewState.ALERT_SENT -> handleAlertSentState()
+            MainViewState.ALERT_RECEIVED -> handleAlertReceivedState()
+        }
+    }
+
+    private fun handleAlertReceivedState() {
+        setAlertButtonBackground(R.drawable.bg_iv_call_icon_received)
+        hideMainContainer()
+        startAlert()
+    }
+
+    private fun handleAlertSentState() {
+        showMainContainer()
+        setAlertButtonBackground(R.drawable.bg_iv_call_icon_sent)
+    }
+
+    private fun handleStandbyState() {
+        setAlertButtonBackground(R.drawable.bg_iv_call_icon_standby)
+        showMainContainer()
+        stopAlert()
+    }
+
+    private fun groupNameChanged(groupName: String?) {
+        binding.groupName = groupName
+        binding.ivAlert.setOnClickListener { alertClicked() }
+    }
+
+    private fun alertClicked() {
+        viewModel.proceedWithAlert()
+    }
+
+    private fun setAlertButtonBackground(drawable: Int) {
+        binding.ivAlert.setBackgroundResource(drawable)
     }
 
     private fun hideMainContainer() {
-        binding.mainContainer.isVisible = false
+        binding.messageContainer.visibility = View.GONE
+    }
+
+    private fun stopAlert() {
+        stopAlertButtonAnimation()
+        stopAlertSound()
+        stopVibratory()
+    }
+
+    private fun startAlert() {
+        startAlertButtonAnimation()
+        startAlertSound()
+        startVibrator()
+    }
+
+    private fun startAlertSound() {
+        alarmSound.start()
+    }
+
+    private fun stopAlertSound() {
+        alarmSound.stop()
+    }
+
+    private fun startAlertButtonAnimation() {
+        val animation = SpinAnimation(50.0f, 600, -1)
+        binding.ivAlert.startAnimation(animation)
+    }
+
+    private fun stopAlertButtonAnimation() {
+        binding.ivAlert.clearAnimation()
+    }
+
+    private fun startVibrator() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val timings = LongArray(100) { i -> 200 }
+            vibrator.vibrate(VibrationEffect.createWaveform(timings, 10))
+        } else {
+            vibrator.vibrate(150)
+        }
+    }
+
+    private fun stopVibratory() {
+        vibrator.cancel()
     }
 
     private fun showMainContainer() {
         TransitionManager.beginDelayedTransition(binding.clMain)
-        binding.mainContainer.isVisible = true
-        isCalling = false
-    }
-
-    private fun createPushNotification(
-        title: String,
-        message: String,
-        groupName: String?,
-    ): PushNotification {
-        val notificationData = NotificationData(title, message)
-        return PushNotification(notificationData, "/topics/$groupName")
-    }
-
-    private fun sendNotification(pushNotification: PushNotification) =
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = NotificationApiInstance.api.postNotification(pushNotification)
-                if (response.isSuccessful)
-                    Log.d("TAG", "Response successful}")
-                else
-                    Log.e("TAG", response.errorBody().toString())
-            } catch (e: Exception) {
-                Log.e("TAG", e.toString())
-            }
-        }
-
-    private fun getToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            val token = task.result         // Gets new FCM registration token
-            val msg = getString(R.string.msg_token_fmt, token)      // Log and toast
-            Log.d("Refreshed token: ", msg)
-            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-        })
+        binding.messageContainer.visibility = View.VISIBLE
     }
 
     companion object {
-        private const val EXTRA_CALLING = "extra-calling"
+        private const val EXTRA_STATE = "EXTRA_STATE"
+        const val TITLE_MEDICAl = "Emergency"
 
         @JvmStatic
-        fun newIntent(context: Context?, isCalling: Boolean?): Intent {
+        fun newIntent(context: Context?, state: MainViewState = MainViewState.STANDBY): Intent {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(EXTRA_CALLING, isCalling)
+            intent.putExtra(EXTRA_STATE, state)
             return intent
-        }
-
-        @JvmStatic
-        fun newIntent(context: Context?): Intent {
-            return Intent(context, MainActivity::class.java)
         }
     }
 }
