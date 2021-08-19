@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.alertphone.R
 import com.example.alertphone.databinding.ActivityOnboardingBinding
 import com.example.alertphone.features.alert.MainActivity
+import com.example.alertphone.features.alert.MainViewState
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
@@ -45,7 +46,7 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun joinGroup(topic: String) {
         if (topic != "") {
-            val intent = MainActivity.newIntent(this)
+            val intent = MainActivity.newIntent(this, MainViewState.STANDBY)
             startActivity(intent)
             finish()
         } else {

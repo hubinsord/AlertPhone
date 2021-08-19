@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.example.alertphone.R
 import com.example.alertphone.databinding.ActivityMainBinding
@@ -26,11 +27,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+        initViewModel()
         initVibrator()
         initAlarmSound()
-        val groupAlertSubscriber = GroupAlertSubscriber(this)
-        val alertSender = AlertSender()
-        viewModel = MainViewModel(groupAlertSubscriber, alertSender)
         viewModel.subscribeForAlerts()
         viewModel.updateState(getInitialViewState())
         binding.tvMessage.doAfterTextChanged {
@@ -42,6 +41,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.groupNameLiveData.observe(this, Observer { groupName ->
             groupNameChanged(groupName)
         })
+    }
+
+    private fun initViewModel() {
+        val groupAlertSubscriber = GroupAlertSubscriber(this)
+        val alertSender = AlertSender()
+        val viewModelFactory = MainViewModelFactory(groupAlertSubscriber, alertSender)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     private fun initVibrator() {
