@@ -27,15 +27,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,7 +44,7 @@
                 tools:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/fab_edit"
+                android:id="@+id/iv_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="edit"
@@ -63,96 +54,59 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/main_container"
+            android:id="@+id/message_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/menu_general_margin"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/iv_emergency_call"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/iv_alert"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/container_labels"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingEnd="@dimen/menu_general_margin"
-                android:weightSum="2"
-                tools:ignore="RtlSymmetry">
-
-                <TextView
-                    android:id="@+id/et_title_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end"
-                    android:text="@string/tv_title_label"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/et_message_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|end"
-                    android:text="@string/tv_message_label"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/container_content"
+            <TextView
+                android:id="@+id/et_message_label"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:text="@string/tv_message_label"
+                android:textColor="@color/black"
+                android:textSize="28sp" />
 
-                <EditText
-                    android:id="@+id/etTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="@string/et_title_content"
-                    android:inputType="text"
-                    android:text="@string/et_title_content"
-                    android:textColor="@color/black"
-                    tools:ignore="LabelFor" />
+            <EditText
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/et_message_content"
+                android:textSize="22sp"
+                android:text="@string/et_message_content"
+                android:textColor="@color/black"
+                tools:ignore="LabelFor" />
 
-                <EditText
-                    android:id="@+id/etMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="@string/et_message_content"
-                    android:inputType="text"
-                    android:text="@string/et_message_content"
-                    android:textColor="@color/black"
-                    tools:ignore="LabelFor" />
-
-            </LinearLayout>
         </LinearLayout>
 
 
         <ImageView
-            android:id="@+id/iv_emergency_call"
+            android:id="@+id/iv_alert"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="40dp"
-            android:background="@drawable/bg_iv_call_icon_idle"
+            android:background="@drawable/bg_iv_call_icon_standby"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toBottomOf="@id/message_container"
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/menu_general_margin"
             android:layout_marginBottom="@dimen/menu_general_margin"
+            android:gravity="center"
             android:text="@string/tv_bottom_info"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

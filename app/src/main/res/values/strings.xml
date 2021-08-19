@@ -14,8 +14,8 @@
     <string name="tv_bottom_info">The following button notifies your group about an emergency</string>
     <string name="et_title_content">Emergency</string>
     <string name="et_message_content">I need your help!</string>
-    <string name="tv_title_label">TITLE:</string>
-    <string name="tv_message_label">MESSAGE:</string>
+    <string name="tv_title_label">Title:</string>
+    <string name="tv_message_label">Message:</string>
     <string name="msg_token_fmt">Token: %1$s</string>
 
 </resources>

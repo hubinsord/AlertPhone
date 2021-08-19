@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.alertphone.R
 import com.example.alertphone.features.alert.MainActivity
+import com.example.alertphone.features.alert.MainViewState
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -29,7 +30,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         i("TEST", "TEST fire base not")
 //        val title = remoteMessage.notification?.title
 //        val message = remoteMessage.notification?.body
-        val map: Map<String,String> = remoteMessage.data
+        val map: Map<String, String> = remoteMessage.data
         val title = map["title"]
         val message = map["message"]
         sendNotification(title, message)
@@ -38,9 +39,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(title: String?, message: String?) {
         i("TEST", "TEST sendNotification")
 
-        val intent = MainActivity.newIntent(this, true)
+        val intent = MainActivity.newIntent(this, MainViewState.ALERT_RECEIVED)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_UPDATE_CURRENT);
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channelId = "alert_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
