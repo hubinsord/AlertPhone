@@ -46,7 +46,7 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun joinGroup(topic: String) {
         if (topic != "") {
-            val intent = MainActivity.newIntent(this, MainViewState.STANDBY)
+            val intent = MainActivity.newIntent(this)
             startActivity(intent)
             finish()
         } else {

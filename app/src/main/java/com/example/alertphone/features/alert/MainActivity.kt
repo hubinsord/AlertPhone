@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -21,26 +22,21 @@ import com.example.alertphone.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var alarmSound: MediaPlayer
-    private lateinit var vibrator: Vibrator
+    private var alarmSound: MediaPlayer? = null
+    private var vibrator: Vibrator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
         initViewModel()
-        initVibrator()
-        initAlarmSound()
+
         viewModel.subscribeForAlerts()
-        viewModel.updateState(getInitialViewState())
-        binding.tvMessage.doAfterTextChanged {
-            viewModel.updateMessage(it.toString())
+        if (intent.hasExtra(EXTRA_STATE)) {
+            viewModel.updateState(getInitialViewState())
+            intent.extras?.clear()
         }
-        viewModel.stateLiveData.observe(this, {
-            viewStateChanged(it)
-        })
-        viewModel.groupNameLiveData.observe(this, Observer { groupName ->
-            groupNameChanged(groupName)
-        })
+        initListeners()
+        initObservers()
     }
 
     private fun initViewModel() {
@@ -50,18 +46,29 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
-    private fun initVibrator() {
-        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-    }
-
-    private fun initAlarmSound() {
-        alarmSound = MediaPlayer.create(this, R.raw.censor_beep_sound).also {
-            it.isLooping = true
-            it.setVolume(100f, 100f)
+    private fun initListeners() {
+        binding.ivAlert.setOnClickListener {
+            viewModel.updateTitle(getString(R.string.title))
+            viewModel.updateMessage(binding.tvMessage.text.toString())
+            alertClicked()
+        }
+        binding.tvMessage.doAfterTextChanged {
+            viewModel.updateMessage(it.toString())
         }
     }
 
-    private fun getInitialViewState() = intent.getSerializableExtra(EXTRA_STATE) as MainViewState
+    private fun alertClicked() {
+        viewModel.proceedWithAlert()
+    }
+
+    private fun initObservers() {
+        viewModel.stateLiveData.observe(this, {
+            viewStateChanged(it)
+        })
+        viewModel.groupNameLiveData.observe(this, Observer { groupName ->
+            groupNameChanged(groupName)
+        })
+    }
 
     private fun viewStateChanged(viewState: MainViewState) {
         when (viewState) {
@@ -72,6 +79,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleAlertReceivedState() {
+        initVibrator()
+        initAlarmSound()
         setAlertButtonBackground(R.drawable.bg_iv_call_icon_received)
         hideMainContainer()
         startAlert()
@@ -88,13 +97,21 @@ class MainActivity : AppCompatActivity() {
         stopAlert()
     }
 
-    private fun groupNameChanged(groupName: String?) {
-        binding.groupName = groupName
-        binding.ivAlert.setOnClickListener { alertClicked() }
+    private fun initVibrator() {
+        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
     }
 
-    private fun alertClicked() {
-        viewModel.proceedWithAlert()
+    private fun initAlarmSound() {
+        alarmSound = MediaPlayer.create(this, R.raw.censor_beep_sound).also {
+            it.isLooping = true
+            it.setVolume(100f, 100f)
+        }
+    }
+
+    private fun getInitialViewState() = intent.getSerializableExtra(EXTRA_STATE) as MainViewState
+
+    private fun groupNameChanged(groupName: String?) {
+        binding.groupName = groupName
     }
 
     private fun setAlertButtonBackground(drawable: Int) {
@@ -118,11 +135,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startAlertSound() {
-        alarmSound.start()
+        alarmSound?.start()
     }
 
     private fun stopAlertSound() {
-        alarmSound.stop()
+        alarmSound?.stop()
     }
 
     private fun startAlertButtonAnimation() {
@@ -137,14 +154,14 @@ class MainActivity : AppCompatActivity() {
     private fun startVibrator() {
         if (Build.VERSION.SDK_INT >= 26) {
             val timings = LongArray(100) { i -> 200 }
-            vibrator.vibrate(VibrationEffect.createWaveform(timings, 10))
+            vibrator?.vibrate(VibrationEffect.createWaveform(timings, 10))
         } else {
-            vibrator.vibrate(150)
+            vibrator?.vibrate(150)
         }
     }
 
     private fun stopVibratory() {
-        vibrator.cancel()
+        vibrator?.cancel()
     }
 
     private fun showMainContainer() {
