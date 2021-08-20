@@ -1,23 +1,29 @@
 package com.example.alertphone.features.alert
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainViewModel(
     private val groupAlertSubscriber: GroupAlertSubscriber,
     private val alertSender: AlertSender,
-    ) : ViewModel() {
+) : ViewModel() {
 
-    val groupNameLiveData: MutableLiveData<String> = MutableLiveData(groupAlertSubscriber.getGroupName())
+    val groupNameLiveData: MutableLiveData<String> =
+        MutableLiveData(groupAlertSubscriber.getGroupName())
     val stateLiveData: MutableLiveData<MainViewState> = MutableLiveData()
     private val messageLiveData: MutableLiveData<String> = MutableLiveData()
+    private val titleLiveData: MutableLiveData<String> = MutableLiveData()
 
     fun subscribeForAlerts() {
         groupAlertSubscriber.subscribeToGroup()
     }
 
     private fun sendAlert() {
-        alertSender.send(MainActivity.TITLE_MEDICAl, messageLiveData.value ?: "", groupNameLiveData.value ?: "")
+        alertSender.send(titleLiveData.value ?: "",
+            messageLiveData.value ?: "",
+            groupNameLiveData.value ?: "")
     }
 
     fun updateState(state: MainViewState) {
@@ -29,13 +35,23 @@ class MainViewModel(
             MainViewState.STANDBY -> {
                 sendAlert()
                 stateLiveData.postValue(MainViewState.ALERT_SENT)
+                changeViewStateOverTime(MainViewState.STANDBY, 10000)
             }
             MainViewState.ALERT_RECEIVED -> stateLiveData.postValue(MainViewState.STANDBY)
             MainViewState.ALERT_SENT -> return
         }
     }
 
+    private fun changeViewStateOverTime(viewState: MainViewState, delay: Long) {
+        Handler(Looper.getMainLooper()).postDelayed(
+            Runnable { stateLiveData.value = viewState  }, delay )
+    }
+
     fun updateMessage(message: String) {
-        messageLiveData.postValue(message)
+        messageLiveData.value = message
+    }
+
+    fun updateTitle(title: String) {
+        titleLiveData.value = title
     }
 }
