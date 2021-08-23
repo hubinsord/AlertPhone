@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -123,6 +122,11 @@ class MainActivity : AppCompatActivity() {
         binding.ivAlert.setBackgroundResource(drawable)
     }
 
+    private fun showMainContainer() {
+        TransitionManager.beginDelayedTransition(binding.clMain)
+        binding.messageContainer.visibility = View.VISIBLE
+    }
+
     private fun hideMainContainer() {
         binding.messageContainer.visibility = View.GONE
     }
@@ -167,11 +171,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopVibratory() {
         vibrator?.cancel()
-    }
-
-    private fun showMainContainer() {
-        TransitionManager.beginDelayedTransition(binding.clMain)
-        binding.messageContainer.visibility = View.VISIBLE
     }
 
     companion object {

@@ -6,9 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.alertphone.R
 import com.example.alertphone.databinding.ActivityOnboardingBinding
-import com.example.alertphone.features.alert.MainActivity
+import com.example.alertphone.features.alert.*
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
@@ -18,14 +19,24 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding =
             DataBindingUtil.setContentView(this@OnboardingActivity, R.layout.activity_onboarding)
+        initViewModel()
+        initListeners()
+        initObservers()
+    }
 
+    private fun initViewModel() {
         val topicStorage = TopicStorage(this)
-        viewModel = OnboardingViewModel(topicStorage)
+        val viewModelFactory = OnBoardingViewModelFactory(topicStorage)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(OnboardingViewModel::class.java)
+    }
 
+    private fun initListeners() {
         binding.etGroupName.doAfterTextChanged {
             viewModel.updateGroupName(it.toString())
         }
+    }
 
+    private fun initObservers() {
         viewModel.groupNameLiveData.observe(this, { groupName ->
             binding.groupName = groupName
             binding.btnConfirm.setOnClickListener {
