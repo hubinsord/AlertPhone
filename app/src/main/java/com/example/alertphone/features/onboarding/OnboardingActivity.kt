@@ -1,14 +1,14 @@
 package com.example.alertphone.features.onboarding
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import com.example.alertphone.R
 import com.example.alertphone.databinding.ActivityOnboardingBinding
 import com.example.alertphone.features.alert.MainActivity
-import com.example.alertphone.features.alert.MainViewState
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardingBinding
@@ -34,16 +34,6 @@ class OnboardingActivity : AppCompatActivity() {
         })
     }
 
-    private fun setImeOption(view: TextView, action: Int, groupName: String) {
-        view.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == action) {
-                joinGroup(groupName)
-                false
-            } else
-                true
-        }
-    }
-
     private fun joinGroup(topic: String) {
         if (topic != "") {
             val intent = MainActivity.newIntent(this)
@@ -53,6 +43,15 @@ class OnboardingActivity : AppCompatActivity() {
             binding.etGroupName.text = null
             binding.etGroupName.setHintTextColor(resources.getColor(R.color.red_400))
             binding.etGroupName.hint = "enter your code"
+        }
+    }
+
+    companion object {
+        private const val EXTRA_STATE = "EXTRA_STATE"
+
+        @JvmStatic
+        fun newIntent(context: Context?): Intent {
+            return Intent(context, OnboardingActivity::class.java)
         }
     }
 }
