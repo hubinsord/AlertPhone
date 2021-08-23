@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.example.alertphone.R
 import com.example.alertphone.databinding.ActivityMainBinding
+import com.example.alertphone.features.onboarding.OnboardingActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
         initViewModel()
-
         viewModel.subscribeForAlerts()
         if (intent.hasExtra(EXTRA_STATE)) {
             viewModel.updateState(getInitialViewState())
@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity() {
         }
         binding.tvMessage.doAfterTextChanged {
             viewModel.updateMessage(it.toString())
+        }
+        binding.ivEditGroupName.setOnClickListener {
+            val intent = OnboardingActivity.newIntent(this)
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -171,7 +176,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
-        const val TITLE_MEDICAl = "Emergency"
 
         @JvmStatic
         fun newIntent(context: Context?, state: MainViewState = MainViewState.STANDBY): Intent {
