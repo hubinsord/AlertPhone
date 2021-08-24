@@ -12,7 +12,7 @@
     <string name="btn_send_notification">Wyślij</string>
     <string name="et_enter_message">Wprowadź wiadomośc</string>
     <string name="et_enter_title">Wprowadź tytuł</string>
-    <string name="tv_bottom_info">Powyższy przycisk wysyła powiadomienie kolegów, że telefon dzwoni</string>
+    <string name="tv_bottom_info">Powyższy przycisk wysyła kolegom powiadomienie, że telefon dzwoni</string>
     <string name="et_message_content">Telefon dzwoni</string>
     <string name="tv_message_label">Wiadomość</string>
     <string name="msg_token_fmt">Token: %1$s</string>

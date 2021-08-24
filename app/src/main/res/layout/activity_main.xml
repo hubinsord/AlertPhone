@@ -81,7 +81,9 @@
                 android:textSize="22sp"
                 android:text="@string/et_message_content"
                 android:textColor="@color/black"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                android:maxLength="30"
+                />
 
         </LinearLayout>
 

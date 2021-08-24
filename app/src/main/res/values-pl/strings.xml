@@ -13,9 +13,7 @@
     <string name="et_enter_message">Wprowadź wiadomośc</string>
     <string name="et_enter_title">Wprowadź tytuł</string>
     <string name="tv_bottom_info">Powyższy przycisk wysyła powiadomienie o nagłym wypadku do twojej grupy</string>
-    <string name="et_title_content">Nagły wypadek</string>
     <string name="et_message_content">Potrzebuję twojej pomocy!</string>
-    <string name="tv_title_label">Tytuł</string>
     <string name="tv_message_label">WIadomość</string>
     <string name="msg_token_fmt">Token: %1$s</string>
 

@@ -8,7 +8,7 @@ class OnBoardingViewModelFactory(private val topicStorage: TopicStorage): ViewMo
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(OnboardingActivity::class.java))
+        if(modelClass.isAssignableFrom(OnboardingViewModel::class.java))
             return OnboardingViewModel(topicStorage) as T
         throw IllegalArgumentException("Unknown ViewModel class")
     }
