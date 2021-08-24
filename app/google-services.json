@@ -7,9 +7,38 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:760971476355:android:161a2673e843fae0934ab6",
+        "mobilesdk_app_id": "1:760971476355:android:c2f1afce0a15ed56934ab6",
         "android_client_info": {
-          "package_name": "com.example.alertphone.alcohol"
+          "package_name": "com.hubertpawlowski.alertphone.alcohol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760971476355-oc33hc1qhbftmmrg1ve98u5sfad60tni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMFUcc-WjMR6vNSMyG1mbqpGUN9TTllA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760971476355-oc33hc1qhbftmmrg1ve98u5sfad60tni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760971476355:android:e55d87368d571cd4934ab6",
+        "android_client_info": {
+          "package_name": "com.hubertpawlowski.alertphone.medical"
         }
       },
       "oauth_client": [
