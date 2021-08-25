@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">AlertPhoneAlcohol</string>
+    <string name="tv_app_name">AlertPhone</string>
+    <string name="tv_app_version">Alcohol</string>
 
     <string name="title">Wiadomość dla kolegów</string>
 

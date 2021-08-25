@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AlertPhoneMedical</string>
-
+    <string name="tv_app_name">AlertPhone</string>
+    <string name="tv_app_version">Medical</string>
     <string name="title">Emergency</string>
 
     <!--    JoinGroupActivity        -->
