@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="groupName"
+            name="inputText"
             type="java.lang.String" />
 
     </data>
@@ -15,96 +15,88 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <TextView
-            android:id="@+id/tv_enter_code_header"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/menu_general_margin"
-            android:gravity="left"
-            android:text="@string/enter_code"
-            android:textColor="@color/black"
-            android:textSize="32sp"
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container_view"
+            android:name="com.hubertpawlowski.alertphone.features.onboarding.username.UserNameFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05" />
+            />
 
-        <TextView
-            android:id="@+id/tv_header_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/menu_general_margin"
-            android:layout_marginBottom="8dp"
-            android:gravity="left"
-            android:text="@string/tv_header_info"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/et_group_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_enter_code_header"
-            app:layout_constraintVertical_bias="0.0" />
-
-
-        <TextView
-            android:id="@+id/tv_hash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/menu_general_margin"
-            android:text="#"
-            android:textSize="50sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
-
-                <EditText
-                    android:id="@+id/et_group_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/menu_general_margin"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-                    android:drawablePadding="12dp"
-                    android:imeOptions="actionSend"
-                    android:inputType="textFilter|textMultiLine"
-                    android:lines="2"
-                    android:paddingHorizontal="@dimen/menu_general_margin"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey_400"
-                    android:textSize="22sp"
-                    android:maxLength="20"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_hash"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.5" />
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/til_group_name"-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_enter_code_header"-->
 <!--            android:layout_width="0dp"-->
-<!--            android:layout_height="50dp"-->
+<!--            android:layout_height="wrap_content"-->
 <!--            android:layout_marginHorizontal="@dimen/menu_general_margin"-->
+<!--            android:gravity="start"-->
+<!--            android:text="@string/enter_code"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="32sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.05" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_header_info"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="@dimen/menu_general_margin"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:gravity="left"-->
+<!--            android:text="@string/tv_header_info"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/et_group_name"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tv_enter_code_header"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_hash"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/menu_general_margin"-->
+<!--            android:text="#"-->
+<!--            android:textSize="50sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.5" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/et_group_name"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="@dimen/menu_general_margin"-->
+<!--            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"-->
+<!--            android:drawablePadding="12dp"-->
+<!--            android:imeOptions="actionSend"-->
+<!--            android:inputType="textFilter|textMultiLine"-->
+<!--            android:lines="2"-->
+<!--            android:paddingHorizontal="@dimen/menu_general_margin"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textColorHint="@color/grey_400"-->
+<!--            android:textSize="22sp"-->
+<!--            android:maxLength="20"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintStart_toEndOf="@id/tv_hash"-->
 <!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintVertical_bias="0.5">-->
+<!--            app:layout_constraintVertical_bias="0.5" />-->
 
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:hint="@string/enter_code"-->
-<!--                android:backgroundTint="@null"/>-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{groupName.length() > 3}"
+            android:enabled="@{inputText.length() > 3}"
             android:paddingHorizontal="25dp"
             android:paddingVertical="14dp"
             android:text="@string/confirm"
@@ -115,8 +107,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.87"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_group_name"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

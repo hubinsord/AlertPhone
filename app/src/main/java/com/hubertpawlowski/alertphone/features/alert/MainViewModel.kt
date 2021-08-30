@@ -10,8 +10,7 @@ class MainViewModel(
     private val alertSender: AlertSender,
 ) : ViewModel() {
 
-    val groupNameLiveData: MutableLiveData<String> =
-        MutableLiveData(groupAlertSubscriber.getGroupName())
+    val groupNameLiveData: MutableLiveData<String> = MutableLiveData(groupAlertSubscriber.getGroupName())
     val stateLiveData: MutableLiveData<MainViewState> = MutableLiveData()
     private val messageLiveData: MutableLiveData<String> = MutableLiveData()
     private val titleLiveData: MutableLiveData<String> = MutableLiveData()

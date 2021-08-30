@@ -17,4 +17,7 @@
     <string name="tv_message_label">WIadomość</string>
     <string name="msg_token_fmt">Token: %1$s</string>
 
+    <string name="tv_enter_name">Wprowadź imię</string>
+    <string name="hash">#</string>
+
 </resources>

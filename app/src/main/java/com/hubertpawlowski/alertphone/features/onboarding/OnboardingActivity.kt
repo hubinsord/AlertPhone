@@ -4,14 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.hubertpawlowski.alertphone.R
 import com.hubertpawlowski.alertphone.databinding.ActivityOnboardingBinding
 import com.hubertpawlowski.alertphone.features.alert.*
+import com.hubertpawlowski.alertphone.features.onboarding.groupcode.GroupCodeFragment
+import com.hubertpawlowski.alertphone.features.onboarding.username.UserNameFragment
 
-class OnboardingActivity : AppCompatActivity() {
+class OnboardingActivity : AppCompatActivity(), UserNameFragment.Companion.UserNameFragmentListener,
+    GroupCodeFragment.Companion.GroupCodeFragmentListener {
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var viewModel: OnboardingViewModel
 
@@ -20,8 +22,37 @@ class OnboardingActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView(this@OnboardingActivity, R.layout.activity_onboarding)
         initViewModel()
-        initListeners()
-        initObservers()
+        setInitialFragment()
+        binding.btnConfirm.setOnClickListener {
+            when (supportFragmentManager.findFragmentById(R.id.fragment_container_view)) {
+                is UserNameFragment -> {
+                    userNameToGroupNameTransition()
+                    resetBtnConfirm()
+                }
+                is GroupCodeFragment -> goToMainActivity()
+            }
+        }
+    }
+
+    private fun resetBtnConfirm() {
+        binding.inputText = ""
+    }
+
+    private fun setInitialFragment() {
+        val fragment = supportFragmentManager.findFragmentByTag(UserNameFragment::class.java.name)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container_view,
+                fragment ?: UserNameFragment.newInstance(),
+                UserNameFragment::class.java.name)
+            commit()
+        }
+    }
+
+    private fun userNameToGroupNameTransition() {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container_view, GroupCodeFragment.newInstance())
+            commit()
+        }
     }
 
     private fun initViewModel() {
@@ -30,39 +61,27 @@ class OnboardingActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(OnboardingViewModel::class.java)
     }
 
-    private fun initListeners() {
-        binding.etGroupName.doAfterTextChanged {
-            viewModel.updateGroupName(it.toString())
-        }
+    override fun userNameChanged(userName: String) {
+        binding.inputText = userName
     }
 
-    private fun initObservers() {
-        viewModel.groupNameLiveData.observe(this, { groupName ->
-            binding.groupName = groupName
-            binding.btnConfirm.setOnClickListener {
-                joinGroup(groupName)
-            }
-        })
+    override fun groupCodeChanged(groupCode: String) {
+        binding.inputText = groupCode
+        viewModel.updateGroupName(groupCode)
     }
 
-    private fun joinGroup(topic: String) {
-        if (topic != "") {
-            val intent = MainActivity.newIntent(this)
-            startActivity(intent)
-            finish()
-        } else {
-            binding.etGroupName.text = null
-            binding.etGroupName.setHintTextColor(resources.getColor(R.color.red_400))
-            binding.etGroupName.hint = "enter your code"
-        }
+    private fun goToMainActivity() {
+        val intent = MainActivity.newIntent(this)
+        startActivity(intent)
+        finish()
     }
 
     companion object {
-        private const val EXTRA_STATE = "EXTRA_STATE"
 
         @JvmStatic
         fun newIntent(context: Context?): Intent {
             return Intent(context, OnboardingActivity::class.java)
         }
     }
+
 }

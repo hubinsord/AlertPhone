@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 
 class OnboardingViewModel(private val topicStorage: TopicStorage) : ViewModel() {
 
-    val groupNameLiveData: MutableLiveData<String> = MutableLiveData()
+    val groupCodeLiveData: MutableLiveData<String> = MutableLiveData()
 
 
     fun updateGroupName(groupName: String) {
-        groupNameLiveData.postValue(groupName)
+        groupCodeLiveData.postValue(groupName)
         storeGroupName(groupName)
     }
 
