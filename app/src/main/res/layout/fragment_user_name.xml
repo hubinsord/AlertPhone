@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/textView"
@@ -18,8 +19,8 @@
             android:layout_marginHorizontal="@dimen/menu_general_margin"
             android:gravity="start"
             android:text="@string/tv_enter_name"
-            android:textColor="@color/black"
             android:textSize="32sp"
+            android:textColor="@color/grey_900"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/menu_general_margin"
-            android:text="#"
+            android:text="@string/hash"
+            android:textColor="@color/grey_900"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,14 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/menu_general_margin"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-            android:drawablePadding="12dp"
             android:inputType="textFilter|textMultiLine"
+            android:backgroundTint="@color/grey_400"
             android:lines="2"
             android:maxLength="20"
             android:paddingHorizontal="@dimen/menu_general_margin"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_400"
             android:textSize="22sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_hash"

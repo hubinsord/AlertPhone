@@ -15,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#" />
+                android:text="@string/hash"
+                android:textColor="@color/grey_900"/>
 
             <TextView
                 android:id="@+id/tv_header_group_name"
@@ -40,7 +42,7 @@
                 android:text="@{groupName}"
                 android:textSize="16sp"
                 tools:text="group name"
-                tools:textColor="@color/black"
+                android:textColor="@color/grey_900"
                 tools:textSize="16sp" />
 
             <ImageView
@@ -49,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="edit"
                 android:scaleType="center"
-                android:src="@drawable/ic_edit_group_name" />
+                android:src="@drawable/ic_edit_group_name"
+                app:tint="@color/grey_900" />
 
         </LinearLayout>
 
@@ -70,17 +73,18 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
                 android:text="@string/tv_message_label"
-                android:textColor="@color/black"
+                android:textColor="@color/grey_900"
                 android:textSize="28sp" />
 
             <EditText
                 android:id="@+id/tv_message"
                 android:layout_width="match_parent"
+                android:textColor="@color/grey_900"
+                android:backgroundTint="@color/grey_400"
                 android:layout_height="wrap_content"
                 android:autofillHints="@string/et_message_content"
                 android:textSize="22sp"
                 android:text="@string/et_message_content"
-                android:textColor="@color/black"
                 tools:ignore="LabelFor"
                 android:maxLength="30"
                 />

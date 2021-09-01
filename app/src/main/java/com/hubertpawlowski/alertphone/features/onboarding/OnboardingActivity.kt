@@ -23,19 +23,31 @@ class OnboardingActivity : AppCompatActivity(), UserNameFragment.Companion.UserN
             DataBindingUtil.setContentView(this@OnboardingActivity, R.layout.activity_onboarding)
         initViewModel()
         setInitialFragment()
-        binding.btnConfirm.setOnClickListener {
-            when (supportFragmentManager.findFragmentById(R.id.fragment_container_view)) {
-                is UserNameFragment -> {
-                    userNameToGroupNameTransition()
-                    resetBtnConfirm()
-                }
-                is GroupCodeFragment -> goToMainActivity()
+        binding.btnConfirm.setOnClickListener { buttonConfirmClicked() }
+    }
+
+    private fun buttonConfirmClicked() {
+        when (supportFragmentManager.findFragmentById(R.id.fragment_container_view)) {
+            is UserNameFragment -> {
+                userNameToGroupNameTransition()
+                resetBtnConfirm()
             }
+            is GroupCodeFragment -> openMainActivity()
         }
     }
 
     private fun resetBtnConfirm() {
         binding.inputText = ""
+    }
+
+    private fun userNameToGroupNameTransition() {
+        val fragment = supportFragmentManager.findFragmentByTag(GroupCodeFragment::class.java.name)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container_view,
+                fragment ?: GroupCodeFragment.newInstance(),
+                GroupCodeFragment::class.java.name)
+            commit()
+        }
     }
 
     private fun setInitialFragment() {
@@ -44,13 +56,6 @@ class OnboardingActivity : AppCompatActivity(), UserNameFragment.Companion.UserN
             replace(R.id.fragment_container_view,
                 fragment ?: UserNameFragment.newInstance(),
                 UserNameFragment::class.java.name)
-            commit()
-        }
-    }
-
-    private fun userNameToGroupNameTransition() {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container_view, GroupCodeFragment.newInstance())
             commit()
         }
     }
@@ -70,7 +75,7 @@ class OnboardingActivity : AppCompatActivity(), UserNameFragment.Companion.UserN
         viewModel.updateGroupName(groupCode)
     }
 
-    private fun goToMainActivity() {
+    private fun openMainActivity() {
         val intent = MainActivity.newIntent(this)
         startActivity(intent)
         finish()

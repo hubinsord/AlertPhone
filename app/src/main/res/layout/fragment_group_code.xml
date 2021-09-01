@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".features.onboarding.groupcode.GroupCodeFragment">
 
         <TextView
@@ -19,8 +20,8 @@
             android:layout_marginHorizontal="@dimen/menu_general_margin"
             android:gravity="start"
             android:text="@string/enter_code"
-            android:textColor="@color/black"
             android:textSize="32sp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +35,7 @@
             android:layout_marginHorizontal="@dimen/menu_general_margin"
             android:layout_marginBottom="8dp"
             android:gravity="start"
+            android:textColor="@color/black"
             android:text="@string/tv_header_info"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/et_group_code"
@@ -49,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/menu_general_margin"
             android:text="@string/hash"
+            android:textColor="@color/black"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,12 +66,12 @@
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
             android:drawablePadding="12dp"
             android:imeOptions="actionSend"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/grey_400"
             android:inputType="textFilter|textMultiLine"
             android:lines="2"
             android:maxLength="20"
             android:paddingHorizontal="@dimen/menu_general_margin"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey_400"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

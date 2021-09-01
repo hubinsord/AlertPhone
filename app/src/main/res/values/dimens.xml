@@ -2,5 +2,5 @@
 <resources>
     <dimen name="menu_general_margin">16dp</dimen>
     <dimen name="padding_emergency_call_icon">50dp</dimen>
-    <dimen name="btn_corner_radius">15dp</dimen>
+    <dimen name="btn_corner_radius">7dp</dimen>
 </resources>
