@@ -7,6 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.hubertpawlowski.alertphone.Constants
 import com.hubertpawlowski.alertphone.R
+import com.hubertpawlowski.alertphone.core.AlertPhone
 import com.hubertpawlowski.alertphone.features.alert.MainActivity
 import com.hubertpawlowski.alertphone.features.onboarding.OnboardingActivity
 

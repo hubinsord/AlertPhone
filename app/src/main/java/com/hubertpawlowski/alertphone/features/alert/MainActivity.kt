@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         initViewModel()
         val userName: String? = getSharedPreferences(Constants.PREF_NAME,
             MODE_PRIVATE).getString(Constants.PREF_USER_NAME, "")
-        viewModel.setUser(userName)
+        val userId = getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE).getLong(Constants.PREF_ID, 0L)
+            viewModel.setUser(userName, userId)
         viewModel.subscribeForAlerts()
         if (intent.hasExtra(EXTRA_STATE)) {
             viewModel.updateState(getInitialViewState())

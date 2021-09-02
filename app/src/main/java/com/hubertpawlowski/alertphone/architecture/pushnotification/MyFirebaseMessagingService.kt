@@ -35,17 +35,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val map: Map<String, String> = remoteMessage.data
         val title = map["title"]
         val message = map["message"]
-        val userId = map["userId"]
+        val userId = map["userId"]?.toLong()
 
         val appUserId = getSharedPreferences(Constants.PREF_NAME,
-            MODE_PRIVATE).getString(Constants.PREF_USER_NAME, "")
+            MODE_PRIVATE).getLong(Constants.PREF_ID, 0L )
         if (userId != appUserId) {
-            sendNotification(title, message, userId)
+            sendNotification(title, message)
         }
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun sendNotification(title: String?, message: String?, userId: String?) {
+    private fun sendNotification(title: String?, message: String?) {
         i("TEST", "TEST sendNotification")
 
         val intent = MainActivity.newIntent(this, MainViewState.ALERT_RECEIVED)

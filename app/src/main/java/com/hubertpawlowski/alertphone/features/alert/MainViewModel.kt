@@ -15,7 +15,8 @@ class MainViewModel(
     val stateLiveData: MutableLiveData<MainViewState> = MutableLiveData()
     private val messageLiveData: MutableLiveData<String> = MutableLiveData()
     private val titleLiveData: MutableLiveData<String> = MutableLiveData()
-    private var user: String? = ""
+    private var userName: String? = ""
+    private var userId: Long = -1
 
     fun subscribeForAlerts() {
         groupAlertSubscriber.subscribeToGroup()
@@ -34,11 +35,11 @@ class MainViewModel(
     }
 
     private fun sendAlert() {
-        val messageCombined = "$user: ${messageLiveData.value ?: ""}"
+        val messageCombined = "$userName: ${messageLiveData.value ?: ""}"
         alertSender.send(titleLiveData.value ?: "",
             messageCombined,
             groupNameLiveData.value ?: "",
-            user ?: "")
+            userId)
     }
 
     fun proceedWithAlert() {
@@ -57,8 +58,10 @@ class MainViewModel(
         Handler(Looper.getMainLooper()).postDelayed({ stateLiveData.value = viewState }, delay)
     }
 
-    fun setUser(userName: String?) {
-        user = userName
+    fun setUser(userName: String?, userId: Long) {
+        this.userName = userName
+        this.userId = userId
+
     }
 
 

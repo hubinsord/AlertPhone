@@ -2,6 +2,7 @@ package com.hubertpawlowski.alertphone
 
 object Constants {
 
+    const val PREF_ID: String = "pref_id"
     const val PREF_USER_NAME ="pref_user_name"
     const val PREF_NAME = "pref_alert"
     const val PREF_GROUP_NAME = "pref_group_name"
