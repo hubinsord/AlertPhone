@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
+import com.hubertpawlowski.alertphone.Constants
 import com.hubertpawlowski.alertphone.R
 import com.hubertpawlowski.alertphone.databinding.ActivityMainBinding
 import com.hubertpawlowski.alertphone.features.onboarding.OnboardingActivity
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
         initViewModel()
+        val userName: String? = getSharedPreferences(Constants.PREF_NAME,
+            MODE_PRIVATE).getString(Constants.PREF_USER_NAME, "")
+        viewModel.setUser(userName)
         viewModel.subscribeForAlerts()
         if (intent.hasExtra(EXTRA_STATE)) {
             viewModel.updateState(getInitialViewState())
@@ -177,7 +181,11 @@ class MainActivity : AppCompatActivity() {
         private const val EXTRA_STATE = "EXTRA_STATE"
 
         @JvmStatic
-        fun newIntent(context: Context?, state: MainViewState = MainViewState.STANDBY): Intent {
+        fun newIntent(
+            context: Context?,
+            state: MainViewState = MainViewState.STANDBY,
+            userId: String = "",
+        ): Intent {
             val intent = Intent(context, MainActivity::class.java)
             intent.putExtra(EXTRA_STATE, state)
             return intent

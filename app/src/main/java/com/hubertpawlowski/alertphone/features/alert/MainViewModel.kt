@@ -10,23 +10,35 @@ class MainViewModel(
     private val alertSender: AlertSender,
 ) : ViewModel() {
 
-    val groupNameLiveData: MutableLiveData<String> = MutableLiveData(groupAlertSubscriber.getGroupName())
+    val groupNameLiveData: MutableLiveData<String> =
+        MutableLiveData(groupAlertSubscriber.getGroupName())
     val stateLiveData: MutableLiveData<MainViewState> = MutableLiveData()
     private val messageLiveData: MutableLiveData<String> = MutableLiveData()
     private val titleLiveData: MutableLiveData<String> = MutableLiveData()
+    private var user: String? = ""
 
     fun subscribeForAlerts() {
         groupAlertSubscriber.subscribeToGroup()
     }
 
-    private fun sendAlert() {
-        alertSender.send(titleLiveData.value ?: "",
-            messageLiveData.value ?: "",
-            groupNameLiveData.value ?: "")
+    fun updateTitle(title: String) {
+        titleLiveData.value = title
     }
 
     fun updateState(state: MainViewState) {
         stateLiveData.postValue(state)
+    }
+
+    fun updateMessage(message: String) {
+        messageLiveData.value = message
+    }
+
+    private fun sendAlert() {
+        val messageCombined = "$user: ${messageLiveData.value ?: ""}"
+        alertSender.send(titleLiveData.value ?: "",
+            messageCombined,
+            groupNameLiveData.value ?: "",
+            user ?: "")
     }
 
     fun proceedWithAlert() {
@@ -42,15 +54,12 @@ class MainViewModel(
     }
 
     private fun changeViewStateOverTime(viewState: MainViewState, delay: Long) {
-        Handler(Looper.getMainLooper()).postDelayed(
-            Runnable { stateLiveData.value = viewState  }, delay )
+        Handler(Looper.getMainLooper()).postDelayed({ stateLiveData.value = viewState }, delay)
     }
 
-    fun updateMessage(message: String) {
-        messageLiveData.value = message
+    fun setUser(userName: String?) {
+        user = userName
     }
 
-    fun updateTitle(title: String) {
-        titleLiveData.value = title
-    }
+
 }

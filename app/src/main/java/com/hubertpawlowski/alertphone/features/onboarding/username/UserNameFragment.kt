@@ -23,6 +23,7 @@ class UserNameFragment : Fragment() {
         } catch (castException: ClassCastException) {
             throw NotImplementedError("class cast failed")
         }
+        initViewModel(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +33,7 @@ class UserNameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(UserNameViewModel::class.java)
+//        initViewModel(view.context)
 
         binding.etGroupCode.doAfterTextChanged {
             viewModel.updateUserName(it.toString())
@@ -41,6 +42,13 @@ class UserNameFragment : Fragment() {
         viewModel.userNameLiveData.observe(viewLifecycleOwner, {
             listener.userNameChanged(it.toString())
         })
+    }
+
+    private fun initViewModel(context: Context) {
+        val userNameStorage = UserNameStorage(context)
+        val viewModelFactory = UserNameViewModelFactory(userNameStorage)
+        viewModel = ViewModelProvider(requireActivity(),
+            viewModelFactory).get(UserNameViewModel::class.java)
     }
 
     companion object{

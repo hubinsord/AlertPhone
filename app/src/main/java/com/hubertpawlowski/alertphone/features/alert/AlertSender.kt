@@ -17,8 +17,8 @@ class AlertSender {
         getToken()
     }
 
-    fun send(title: String, message: String, groupName: String) {
-        val pushNotification = createPushNotification(title, message, groupName)
+    fun send(title: String, message: String, groupName: String, userId: String) {
+        val pushNotification = createPushNotification(title, message, groupName, userId)
         sendNotification(pushNotification)
     }
 
@@ -33,13 +33,8 @@ class AlertSender {
         })
     }
 
-    private fun createPushNotification(
-        title: String,
-        message: String,
-        groupName: String?,
-    ): PushNotification {
-        val notificationData = NotificationData(title, message)
-
+    private fun createPushNotification(title: String, message: String, groupName: String?, userId: String): PushNotification {
+        val notificationData = NotificationData(title, message, userId)
         return PushNotification(notificationData, "/topics/${BuildConfig.FLAVOR}$groupName")
     }
 
